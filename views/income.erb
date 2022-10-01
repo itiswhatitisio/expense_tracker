@@ -1,0 +1,18 @@
+<form class="income_form" action="/transaction/add" method="post" id="income-form">
+  <h2>Income</h2>
+  <label for="date">Date</label>
+  <input class="expense_form__date" type="date" name="date" value="<%= session[:last_date] %>">
+  <label for="amount">Amount</label>
+  <input class="expense_form__amount" type="number" name="amount" min=0 step=0.01 value="<%= session[:last_amount] %>">
+  <label for="account">Account</label>
+  <select name="account"><%= generate_dropdown(session[:accounts]) if !session[:accounts].nil? %></select>
+  <label for="category">Category</label>
+  <% if !session[:categories].nil? %>
+  <select name="category"><%= generate_dropdown(@income_categories) if !session[:categories].nil? %></select>
+  <% end %>
+  <label for="note">Note</label>
+  <input type="text" name="note" placeholder="note" value="">
+  <input type="hidden" name="type" value="income">
+  <input type="submit" value="Save">
+  <input type="reset" value="Reset">
+</form>

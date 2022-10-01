@@ -1,0 +1,11 @@
+<div class="transactions">
+  <h2>Recent Transactions</h2>
+  <% if !session[:accounts].map(&:transactions).nil? %>
+    <% session[:accounts].map(&:transactions).flatten.sort_by { |transaction| transaction.date }.reverse.first(5).each do |transaction| %>
+      <p><%= transaction.category %><p>
+      <p class="transaction__note"><%= transaction.note %><p>
+      <p>Date: <%= transaction.date %>
+      <hr>
+     <% end %>
+  <% end %>
+</div>

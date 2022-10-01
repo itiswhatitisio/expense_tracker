@@ -1,0 +1,9 @@
+<h2>Edit an account</h2>
+<form action="/edit/account/<%= params[:id].to_i %>" method="post" id="edit-account">
+  <label for="name">Account</label>
+  <input type="text" name="name" placeholder="" value="<%= session[:accounts][@id].name %>">
+  <input type="number" min="0.00" step="0.01" name="balance" value="<%= session[:accounts][@id].balance %>">
+  <label for="balance">Balance</label>
+  <input type="submit" value="Save">
+  <input type="reset" value="Reset">
+</form>

@@ -1,0 +1,15 @@
+    <h2>Edit a category</h2>
+    <form action="/edit/category/<%= params[:id].to_i %>" method="post" id="edit-category">
+      <dl>
+        <label for="name">Category</label>
+        <input type="text" name="name" placeholder="" value="<%= session[:categories][@id].name %>">
+        <input type="radio" name="type" value="">
+        <label for="type" value="income">Income</label>
+        <input type="radio" name="type" value="expense">
+        <label for="type">Expense</label>
+      </dl>
+      <fieldset class="actions">
+        <input type="submit" value="Save">
+        <a href="/">Cancel</a>
+      </fieldset>
+    </form>

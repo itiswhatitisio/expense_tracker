@@ -1,0 +1,28 @@
+<div class="accounts">
+  <h2>Accounts</h2>
+  <ul>
+    <% if !session[:accounts].nil? %>
+      <% session[:accounts].each_with_index do |account, index| %>
+        <li><%= "#{account.name}: #{account.balance}"%></li>
+        <br>
+        <a href="/edit/account/<%= index %>">Edit</a>
+        <a href="/delete/account/<%= index %>">Delete</a>
+        <hr>
+      <% end %>
+    <% end %>
+  </ul>
+
+<button class="add_account">New Account</button>
+
+<form class="add_account_form" action="/account/add" method="post" id="add-account">
+  <h2>Add an account</h2>
+  <label for="name">Account name</label>
+  <input type="text" name="name" placeholder="Credit" value="">
+  <label for="balance" value="income">Balance</label>
+  <input type="number" min="0.00" step="0.01" name="balance" value="">
+  <br>
+  <div>Choose an emoji:</div>
+  <emoji-picker></emoji-picker>
+  <input type="submit" value="Save">
+  <input type="reset" value="Reset">
+</form>

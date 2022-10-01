@@ -1,0 +1,30 @@
+<div class="accounts">
+  <h2>Categories</h2>
+  <ul>
+    <% if !session[:categories].nil? %>
+      <% session[:categories].each_with_index do |category, index| %>
+        <li><%= "#{category.icon} #{category.name}"%></li>
+        <br>
+        <a href="/edit/category/<%= index %>">Edit</a>
+        <a href="/delete/category/<%= index %>">Delete</a>
+        <hr>
+      <% end %>
+    <% end %>
+  </ul>
+
+<button class="add_category">New Category</button>
+
+<form class="add_category_form" action="/category/add" method="post" id="add-category">
+  <h2>Add a category</h2>
+  <label for="name">Category name</label>
+  <input type="text" name="name" placeholder="🍎 Groceries" value="">
+  <br>
+  <label for="type" value="income">Income</label>
+  <input type="radio" name="type" value="income">
+  <label for="type" value="expense">Expense</label>
+  <input type="radio" name="type" value="expense">
+  <div>Choose an emoji:</div>
+  <emoji-picker></emoji-picker>
+  <input type="submit" value="Save">
+  <input type="reset" value="Reset">
+</form>
