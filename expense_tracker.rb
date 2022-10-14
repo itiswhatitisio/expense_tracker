@@ -69,6 +69,8 @@ end
 
 before do
   session[:transactions] ||= []
+  session[:errors] ||= []
+  session[:success] ||= []
 end
 
 helpers do
@@ -120,14 +122,13 @@ get '/' do
   erb :homepage, layout: :layout
 end
 
-post '/transaction/add' do
-
+post '/transactions/add' do
+  p session
   if params[:date].empty?
     session[:last_amount] = params[:amount]
     session[:errors] << 'The date cannot be empty.'
   elsif error_for_future_date(params[:date])
-    p params[:amount]
-    p session[:last_amount] = params[:amount]
+    session[:last_amount] = params[:amount]
     session[:last_amount] = params[:amount].to_i
     session[:errors] << error_for_future_date(params[:date])
   end
@@ -150,6 +151,7 @@ post '/transaction/add' do
 end
 
 get '/transactions' do
+  p session
   case params[:period]
   when 'this_month'
     current_month = Date.today.strftime('%Y-%B')

@@ -1,16 +1,15 @@
-<div class="accounts">
-  <h2>Accounts</h2>
-  <ul>
-    <% if !session[:accounts].nil? %>
-      <% session[:accounts].each_with_index do |account, index| %>
-        <li><%= "#{account.name}: #{account.balance}"%></li>
-        <br>
-        <a href="/edit/account/<%= index %>">Edit</a>
-        <a href="/delete/account/<%= index %>">Delete</a>
-        <hr>
-      <% end %>
+<h2>Accounts</h2>
+<ul>
+  <% if !session[:accounts].nil? %>
+    <% session[:accounts].each_with_index do |account, index| %>
+      <li><%= "#{account.name}: #{account.balance}"%></li>
+      <br>
+      <a href="/edit/account/<%= index %>">Edit</a>
+      <a href="/delete/account/<%= index %>">Delete</a>
+      <hr>
     <% end %>
-  </ul>
+  <% end %>
+</ul>
 
 <button class="add_account">New Account</button>
 
