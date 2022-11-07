@@ -21,6 +21,7 @@ class Transaction
   attr_accessor :date, :amount, :category, :note, :type
 
   def initialize(transaction_details)
+    p transaction_details
     @date = transaction_details[:date]
     @amount = if transaction_details[:type] == 'expense'
                 -transaction_details[:amount].to_f
@@ -69,8 +70,8 @@ end
 
 before do
   session[:transactions] ||= []
-  session[:errors] ||= []
-  session[:success] ||= []
+  # session[:errors] ||= []
+  # session[:success] ||= []
 end
 
 helpers do
@@ -103,6 +104,7 @@ helpers do
 end
 
 get '/' do
+  p session
   set_default_categories if session[:categories].nil?
   set_default_accounts if session[:accounts].nil?
   session[:errors] = [] if session[:errors].nil?
@@ -124,13 +126,22 @@ end
 
 post '/transactions/add' do
   p session
+    session[:last_amount] = params[:amount]
   if params[:date].empty?
     session[:last_amount] = params[:amount]
+    session[:errors] = []
     session[:errors] << 'The date cannot be empty.'
-  elsif error_for_future_date(params[:date])
+  end
+
+  if error_for_future_date(params[:date])
     session[:last_amount] = params[:amount]
     session[:last_amount] = params[:amount].to_i
-    session[:errors] << error_for_future_date(params[:date])
+    if session[:errors]
+      session[:errors] << error_for_future_date(params[:date])
+    else
+      session[:errors]
+      session[:errors] << error_for_future_date(params[:date]) 
+    end
   end
 
   if params[:amount].empty?
@@ -140,9 +151,9 @@ post '/transactions/add' do
 
   if session[:errors].nil? || session[:errors].empty?
     selected_account = session[:accounts].find { |account| account.name == params[:account]}
-    p selected_account
     selected_account.add(Transaction.new(params))
-    session[:success] << 'The transcation has been added successfully.'
+    p session
+    session[:success] = 'The transcation has been added successfully.'
     session[:last_date] = ''
     session[:last_amount] = ''
   end
@@ -151,7 +162,6 @@ post '/transactions/add' do
 end
 
 get '/transactions' do
-  p session
   case params[:period]
   when 'this_month'
     current_month = Date.today.strftime('%Y-%B')
@@ -174,12 +184,10 @@ get '/income' do
   @expense_categories = session[:categories].select { |category| category.type == 'expense' }
   @income_categories = session[:categories].select { |category| category.type == 'income' }
   end
-  p session[@income_categories]
   erb :income, layout: :layout
 end
 
 get '/categories' do
-  p session[:categories]
   erb :categories, layout: :layout
 end
 
@@ -189,7 +197,7 @@ post '/category/add' do
     session[:errors] << error
   else
     session[:categories] << Category.new(params[:category], params[:type])
-    session[:success] << 'A new category has been created.'
+    session[:success] = 'A new category has been created.'
   end
 
   redirect '/categories'
@@ -210,7 +218,7 @@ post '/account/add' do
     session[:errors] << error
   else
     session[:accounts] << Account.new(params[:name], params[:balance].to_i)
-    session[:success] << 'Account has been added succsessfully.'
+    session[:success] = 'Account has been added succsessfully.'
   end
 
   redirect '/accounts'
@@ -232,7 +240,7 @@ post '/delete/account/:id' do
   @id = params[:id].to_i
   name = session[:categories][@id].name
   session[:accounts].delete_at(@id)
-  session[:success] << "Account #{name} has been successfully deleted."
+  session[:success] = "Account #{name} has been successfully deleted."
   redirect '/accounts'
 end
 

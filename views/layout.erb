@@ -31,14 +31,14 @@
     </script>
   </head>
 
-  <% if session[:error] %>
-    <div class="flash error">
-      <p><%= session.delete(:error) %></p>
+  <% if !session[:errors].empty? %>
+    <div class="flash error" style="max-width: 960px; padding: 10px 20px;margin: 20px auto 1.5em auto; background-color: #ffcfbf; color: #ff6633;">
+      <p><%= session.delete(:errors) %></p>
     </div>
   <% end %>
 
-  <% if session[:success] %>
-    <div class="flash success">
+  <% if !session[:success].empty? %>
+    <div class="flash success" style="max-width: 960px; padding: 10px 20px;margin: 20px auto 1.5em auto; background-color: #cbf2e5; color: #33cc99;">
       <p><%= session.delete(:success) %></p>
     </div>
   <% end %>

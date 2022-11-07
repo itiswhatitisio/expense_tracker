@@ -8,7 +8,7 @@
   <select name="account"><%= generate_dropdown(session[:accounts]) if !session[:accounts].nil? %></select>
   <label for="category">Category</label>
   <% if !session[:categories].nil? %>
-  <select name="category"><%= generate_dropdown(@expense_categories) if !session[:categories].nil? %></select>
+    <select name="category"><%= generate_dropdown(@expense_categories) if !session[:categories].nil? %></select>
   <% end %>
   <label for="note">Note</label>
   <input type="text" name="note" placeholder="note" value="">
