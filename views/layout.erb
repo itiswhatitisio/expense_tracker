@@ -33,7 +33,8 @@
 
   <% if !session[:errors].empty? %>
     <div class="flash error" style="max-width: 960px; padding: 10px 20px;margin: 20px auto 1.5em auto; background-color: #ffcfbf; color: #ff6633;">
-      <p><%= session.delete(:errors) %></p>
+      <p><%= session[:errors].join('') %></p>
+      <% session.delete(:errors) %>
     </div>
   <% end %>
 

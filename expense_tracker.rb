@@ -127,6 +127,7 @@ end
 post '/transactions/add' do
   p session
     session[:last_amount] = params[:amount]
+
   if params[:date].empty?
     session[:last_amount] = params[:amount]
     session[:errors] = []
