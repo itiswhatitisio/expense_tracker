@@ -6,7 +6,7 @@ require 'date'
 
 def error_for_name(item, group, type)
   if !(1..250).cover? item.size
-    "#{type}  has #{item.size} characters. The name must be between 1 and 250 characters."
+    "#{item} has #{item.size} characters. The name must be between 1 and 250 characters."
   elsif group.map(&:name).any? { |existing_item| existing_item == item }
     "#{type} name must be unique."
   end
@@ -145,11 +145,6 @@ post '/transactions/add' do
     end
   end
 
-  if params[:amount].empty?
-    session[:errors] << 'The amount cannot be empty.'
-    session[:last_date] = params[:date] if !params[:date].empty? || !params[:date].nil? && error_for_future_date(params[:date])
-  end
-
   if session[:errors].nil? || session[:errors].empty?
     selected_account = session[:accounts].find { |account| account.name == params[:account]}
     selected_account.add(Transaction.new(params))
@@ -193,11 +188,12 @@ get '/categories' do
 end
 
 post '/category/add' do
-  error = error_for_name(params[:category], session[:categories], 'Category')
+  p params
+  error = error_for_name(params[:name], session[:categories], 'Category')
   if error
-    session[:errors] << error
+    session[:errors] = error
   else
-    session[:categories] << Category.new(params[:category], params[:type])
+    session[:categories] << Category.new(params[:icon], params[:name], params[:type])
     session[:success] = 'A new category has been created.'
   end
 

@@ -16,11 +16,13 @@
 
 <form class="add_category_form" action="/category/add" method="post" id="add-category">
   <h2>Add a category</h2>
+  <label for="icon">Category icon</label>
+  <input type="text" name="icon" placeholder="🍎" value="" required>
   <label for="name">Category name</label>
-  <input type="text" name="name" placeholder="🍎 Groceries" value="">
+  <input type="text" name="name" placeholder="Groceries" value="" required>
   <br>
   <label for="type" value="income">Income</label>
-  <input type="radio" name="type" value="income">
+  <input type="radio" name="type" value="income" required>
   <label for="type" value="expense">Expense</label>
   <input type="radio" name="type" value="expense">
   <div>Choose an emoji:</div>
