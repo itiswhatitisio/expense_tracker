@@ -240,6 +240,12 @@ post '/delete/account/:id' do
   redirect '/accounts'
 end
 
+get '/edit/category/:id' do
+  @id = params[:id].to_i
+
+  erb :edit_category, layout: :layout
+end
+
 post '/edit/category/:id' do
   @id = params[:id].to_i
   error = error_for_name(params[:name], session[:categories], 'Category')

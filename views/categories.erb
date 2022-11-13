@@ -3,12 +3,12 @@
   <ul>
     <% if !session[:categories].nil? %>
       <% session[:categories].each_with_index do |category, index| %>
-        <li><%= "#{category.icon} #{category.name}"%></li>
-        <br>
-        <a href="/edit/category/<%= index %>">Edit</a>
+        <li><%= "#{category.icon} #{category.name}"%>
+        <button><a href="/edit/category/<%= index %>">Edit</a></button>
         <form action="/delete/category/<%= index %>" method="post" class="delete">
           <button type="submit">Delete</button>
         </form>
+      </li>
         <hr>
       <% end %>
     <% end %>
