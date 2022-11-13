@@ -6,7 +6,9 @@
         <li><%= "#{category.icon} #{category.name}"%></li>
         <br>
         <a href="/edit/category/<%= index %>">Edit</a>
-        <a href="/delete/category/<%= index %>">Delete</a>
+        <form action="/delete/category/<%= index %>" method="post" class="delete">
+          <button type="submit">Delete</button>
+        </form>
         <hr>
       <% end %>
     <% end %>

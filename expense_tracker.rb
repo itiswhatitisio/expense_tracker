@@ -240,11 +240,6 @@ post '/delete/account/:id' do
   redirect '/accounts'
 end
 
-get '/edit/category/:id' do
-  @id = params[:id].to_i
-  erb :edit_category, layout: :layout
-end
-
 post '/edit/category/:id' do
   @id = params[:id].to_i
   error = error_for_name(params[:name], session[:categories], 'Category')
@@ -253,16 +248,21 @@ post '/edit/category/:id' do
   else
     session[:categories][@id].icon = params[:icon]
     session[:categories][@id].name = params[:name]
-    session[:success] = 'A category has been edited.'
+    session[:success] = 'The category is changed.'
   end
 
   redirect '/categories'
+end
+
+get '/delete/category/:id' do
+  @id = params[:id].to_i
+  erb :edit_category, layout: :layout
 end
 
 post '/delete/category/:id' do
   @id = params[:id].to_i
   name = session[:categories][@id].name
   session[:categories].delete_at(@id)
-  session[:success] << "Category #{name} has been successfully deleted."
+  session[:success] = "The category has been successfully deleted."
   redirect '/categories'
 end
