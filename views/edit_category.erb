@@ -1,11 +1,16 @@
 <h2>Edit a category</h2>
 <form action="/edit/category/<%= params[:id].to_i %>" method="post" id="edit-category">
   <dl>
-    <label for="name">Category</label>
+    <label for="icon">Category icon</label>
+    <input type="text" name="icon" placeholder="" value="<%= session[:categories][@id].icon %>">
+    <label for="name">Category name</label>
     <input type="text" name="name" placeholder="" value="<%= session[:categories][@id].name %>">
+    <div>Choose an emoji:</div>
+    <emoji-picker></emoji-picker>
+    <br>
     <input type="radio" name="type" value="">
-    <label for="type" value="income">Income</label>
-    <input type="radio" name="type" value="expense">
+    <label for="type" value="income" required>Income</label>
+    <input type="radio" name="type" value="expense" required>
     <label for="type">Expense</label>
   </dl>
   <fieldset class="actions">

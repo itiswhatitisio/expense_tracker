@@ -243,11 +243,13 @@ end
 
 get '/edit/category/:id' do
   @id = params[:id].to_i
-  erb :edit_category, layout: :edit_category
+  erb :edit_category, layout: :layout
 end
 
 post '/edit/category/:id' do
+  p params
   @id = params[:id].to_i
+  session[:categories][@id].icon = params[:icon]
   session[:categories][@id].name = params[:name]
   redirect '/categories'
 end
