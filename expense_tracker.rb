@@ -6,7 +6,7 @@ require 'date'
 
 def error_for_name(item, group, type)
   if !(1..250).cover? item.size
-    "#{item} has #{item.size} characters. The name must be between 1 and 250 characters."
+    "#{type} name has #{item.size} characters. The name must be between 1 and 250 characters."
   elsif group.map(&:name).any? { |existing_item| existing_item == item }
     "#{type} name must be unique."
   end
@@ -188,7 +188,6 @@ get '/categories' do
 end
 
 post '/category/add' do
-  p params
   error = error_for_name(params[:name], session[:categories], 'Category')
   if error
     session[:errors] = error
@@ -247,10 +246,16 @@ get '/edit/category/:id' do
 end
 
 post '/edit/category/:id' do
-  p params
   @id = params[:id].to_i
-  session[:categories][@id].icon = params[:icon]
-  session[:categories][@id].name = params[:name]
+  error = error_for_name(params[:name], session[:categories], 'Category')
+  if error
+    session[:errors] = error
+  else
+    session[:categories][@id].icon = params[:icon]
+    session[:categories][@id].name = params[:name]
+    session[:success] = 'A category has been edited.'
+  end
+
   redirect '/categories'
 end
 
